@@ -15,6 +15,7 @@ pub enum Class {
     Elementalist,
     Monk,
     Templar,
+    Mandalorian,
 }
 
 impl Class {
@@ -30,6 +31,7 @@ impl Class {
             "9" => Class::Elementalist,
             "10" => Class::Monk,
             "11" => Class::Templar,
+            "12" => Class::Mandalorian,
             _ => Class::Warrior,
         }
     }
@@ -46,7 +48,8 @@ impl Class {
             8) Druid\n  \
             9) Elementalist\n  \
             10) Monk\n  \
-            11) Templar\n\n"
+            11) Templar\n  \
+            12) Mandalorian\n\n"
             .to_owned()
     }
 }
@@ -65,6 +68,7 @@ impl fmt::Display for Class {
             Self::Elementalist => "Elementalist",
             Self::Monk => "Monk",
             Self::Templar => "Templar",
+            Self::Mandalorian => "Mandalorian",
         };
         write!(f, "{}", s)
     }
