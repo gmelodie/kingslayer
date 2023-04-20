@@ -7,6 +7,7 @@ use super::{
     Item::{self, Container},
     Lockable, Pathway,
 };
+use crate::player::Player;
 use crate::types::{Action, Allies, Attack, CmdResult, Elements, Enemies, Items, Paths};
 
 // A section of the world connected by paths
@@ -148,10 +149,22 @@ impl Room {
         }
     }
 
-    pub fn unlock(&mut self, name: &str) -> CmdResult {
+    pub fn unlock(&mut self, name: &str, player: &mut Player) -> CmdResult {
         if let Some(path) = self.find_path_mut(name) {
             if path.is_locked() {
-                path.unlock()
+                path.unlock(player)
+            } else {
+                CmdResult::already_unlocked(name)
+            }
+        } else {
+            CmdResult::no_item_here(name)
+        }
+    }
+
+    pub fn pick(&mut self, name: &str, player: &mut Player) -> CmdResult {
+        if let Some(path) = self.find_path_mut(name) {
+            if path.is_locked() {
+                path.pick(player)
             } else {
                 CmdResult::already_unlocked(name)
             }

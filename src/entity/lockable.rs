@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use crate::player::Player;
 use crate::types::CmdResult;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -18,7 +19,9 @@ impl DoorLock {
 }
 
 pub trait Lockable {
-    fn unlock(&mut self) -> CmdResult;
+    fn pick(&mut self, player: &mut Player) -> CmdResult;
+
+    fn unlock(&mut self, player: &mut Player) -> CmdResult;
 
     fn lock(&mut self) -> CmdResult;
 

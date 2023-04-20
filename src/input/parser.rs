@@ -116,9 +116,29 @@ impl Parser {
         }
     }
 
-    fn parse_unlock(verb: &str, words: &CmdTokens, world: &mut World) -> CmdResult {
+    fn parse_unlock(
+        verb: &str,
+        words: &CmdTokens,
+        world: &mut World,
+        player: &mut Player,
+    ) -> CmdResult {
         if let Some(obj) = words.obj() {
-            world.unlock(obj)
+            // for each key in player's inventory, try to open with them
+            world.unlock(obj, player)
+        } else {
+            CmdResult::do_what(verb)
+        }
+    }
+
+    fn parse_pick(
+        verb: &str,
+        words: &CmdTokens,
+        world: &mut World,
+        player: &mut Player,
+    ) -> CmdResult {
+        if let Some(obj) = words.obj() {
+            // for each key in player's inventory, try to open with them
+            world.pick(obj, player)
         } else {
             CmdResult::do_what(verb)
         }
@@ -250,22 +270,21 @@ impl Parser {
                 }
                 "heal" | "rest" | "sleep" => player.rest(),
                 "hail" | "talk" | "hi" | "hello" | "greet" => Parser::parse_hail(words, world),
-                "cast" | "use" => {
-                    CmdResult::new(Action::Passive, String::from("TODO: cast something"))
-                }
+                // "cast" => CmdResult::new(Action::Passive, String::from("TODO: cast something")),
                 "close" => Parser::parse_close(verb, words, world, player),
                 "don" | "wear" => Parser::parse_don(verb, words, player),
-                "draw" | "equip" | "hold" => Parser::parse_equip(verb, words, player),
+                "e" | "draw" | "equip" | "hold" | "use" => Parser::parse_equip(verb, words, player),
                 "drop" | "remove" | "throw" => Parser::parse_drop(verb, words, world, player),
                 "examin" | "inspec" | "read" | "search" | "x" => {
                     Parser::parse_x(verb, words, world, player)
                 }
-                "get" | "take" => Parser::parse_take(verb, words, world, player),
+                "g" | "get" | "take" => Parser::parse_take(verb, words, world, player),
                 "increa" => Parser::parse_increase(words, player),
-                "lock" => CmdResult::new(Action::Passive, String::from("TODO: lock something")),
+                // "lock" => CmdResult::new(Action::Passive, String::from("TODO: lock something")),
                 "open" => Parser::parse_open(verb, words, world, player),
                 "insert" | "place" | "put" => Parser::parse_put(words, verb, world, player),
-                "unlock" | "pick" => Parser::parse_unlock(verb, words, world),
+                "unlock" => Parser::parse_unlock(verb, words, world, player),
+                "pick" => Parser::parse_pick(verb, words, world, player),
                 "wait" | "z" => Player::wait(),
                 "help" => Cli::help(),
                 _ => CmdResult::new(

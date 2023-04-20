@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     entity::{Closeable, Element, Enemy, Entity, Item, Lockable, Room},
+    player::Player,
     types::{Action, Attack, CmdResult, Items, Rooms},
 };
 
@@ -83,8 +84,12 @@ impl World {
         }
     }
 
-    pub fn unlock(&mut self, name: &str) -> CmdResult {
-        self.get_curr_room_mut().unlock(name)
+    pub fn unlock(&mut self, name: &str, player: &mut Player) -> CmdResult {
+        self.get_curr_room_mut().unlock(name, player)
+    }
+
+    pub fn pick(&mut self, name: &str, player: &mut Player) -> CmdResult {
+        self.get_curr_room_mut().pick(name, player)
     }
 
     pub fn open(&mut self, name: &str) -> CmdResult {

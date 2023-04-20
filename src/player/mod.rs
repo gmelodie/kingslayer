@@ -20,10 +20,10 @@ pub struct Player {
     hp: (i32, u32),
     xp: (u32, u32),
     in_combat: CombatStatus,
-    stats: Stats,
+    pub stats: Stats,
     main_hand: Option<Box<Item>>,
     armor: Option<Box<Item>>,
-    inventory: Inventory,
+    pub inventory: Inventory,
 }
 
 impl Default for Player {

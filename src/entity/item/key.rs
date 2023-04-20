@@ -4,10 +4,10 @@ use crate::entity::Entity;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Key {
-    name: String,
+    pub name: String,
     desc: String,
     inspect: String,
-    code: String,
+    pub code: String,
 }
 
 impl Key {

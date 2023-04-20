@@ -1,8 +1,9 @@
 use rayon::prelude::*;
 
+use crate::player::Player;
 use serde::{Deserialize, Serialize};
 
-use super::{Closeable, DoorLock, Durability, Entity, Lockable, Opening};
+use super::{Closeable, DoorLock, Durability, Entity, Item, Lockable, Opening};
 use crate::{
     dice_roll,
     types::{Action, CmdResult},
@@ -108,10 +109,33 @@ impl Closeable for Pathway {
 }
 
 impl Lockable for Pathway {
-    fn unlock(&mut self) -> CmdResult {
+    fn unlock(&mut self, player: &mut Player) -> CmdResult {
+        if let Some(lock) = &self.lock {
+            if let DoorLock::Locked(lock_code) = lock {
+                for item in &player.inventory.items {
+                    if let Item::Key(key) = item.as_ref() {
+                        if key.code == *lock_code {
+                            self.lock = Some(DoorLock::Unlocked);
+                            return CmdResult::new(
+                                Action::Active,
+                                format!("Used {} to unlock. Unlocked!", key.name),
+                            );
+                        }
+                    }
+                }
+                return CmdResult::new(Action::Passive, String::from("No keys to open the way."));
+            }
+        }
+        return CmdResult::new(
+            Action::Passive,
+            String::from("The way is already unlocked."),
+        );
+    }
+
+    fn pick(&mut self, player: &mut Player) -> CmdResult {
         if let Some(lock) = &self.lock {
             if lock.is_locked() {
-                if dice_roll(1, 20) > 10 {
+                if dice_roll(1, 1000) as i32 * player.stats.dex > 10 {
                     self.lock = Some(DoorLock::Unlocked);
                     CmdResult::new(Action::Active, "Unlocked.")
                 } else {

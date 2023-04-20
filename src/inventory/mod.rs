@@ -12,7 +12,7 @@ use crate::{
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct Inventory {
-    items: Items,
+    pub items: Items,
     gold: u32,
 }
 
