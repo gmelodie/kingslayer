@@ -75,10 +75,6 @@ impl Cli {
 
 Some available commands:
 
-    Game commands
-        quit            quit the game
-        save            save the game state to [object].save.ron or world.save.ron
-
     Explore around the world
         go, enter       move in a direction or through a listed entrance
             Directions can be short like:
@@ -91,19 +87,18 @@ Some available commands:
         r, again        repeat last command
         l, look         look around the room
         open | close    open/close an item or pathway
+        unlock          use a key to unlock a locked path
+        pick            use dexterity to lockpick a locked path
 
     Manipulate items found in the world
-        take            put an item from the room into your inventory
+        take | get      put an item from the room into your inventory
         drop            drop an item from your inventory into the room
         i, inventory    print the contents of your inventory
-        x, examine      show additional information about an item
+        inspect      show additional information about an item
         draw, equip     use an item from your inventory as your default weapon
-        don, put on     don a set of armor to increase your armor class
-        kill            attack an enemy with your main hand or a chosen weapon
+        kill | attack            attack an enemy with your main hand or a chosen weapon
 
     Manage your character
-        heal            replenish some HP
-        increase        increase a chosen ability score by 1 if stat points are available
         c | stats          display information on the state of your character",
         )
     }

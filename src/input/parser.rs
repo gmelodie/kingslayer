@@ -286,7 +286,7 @@ impl Parser {
                 "unlock" => Parser::parse_unlock(verb, words, world, player),
                 "pick" => Parser::parse_pick(verb, words, world, player),
                 "wait" | "z" => Player::wait(),
-                "help" => Cli::help(),
+                "help" | "h" => Cli::help(),
                 _ => CmdResult::new(
                     Action::Failed,
                     format!("I do not know the word \"{}\".", verb),

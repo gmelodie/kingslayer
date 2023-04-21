@@ -245,7 +245,7 @@ impl Room {
                                     .loot()
                                     .iter()
                                     .fold(String::from("It dropped:\n"), |drops, loot| {
-                                        format!("{} {},", drops, loot.long_name())
+                                        format!("{} {}\n", drops, loot.long_name())
                                     });
                                 if cfg!(target_arch = "wasm32") {
                                     self.items.extend(enemy.drop_loot());
